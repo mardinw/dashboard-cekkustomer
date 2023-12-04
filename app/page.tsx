@@ -26,7 +26,7 @@ export default function Home() {
   useEffect( () => {
     const getData = async () => {
       try {
-        const response = await fetch('http://ec2-52-221-195-16.ap-southeast-1.compute.amazonaws.com:4001/v1/check/match');
+        const response = await fetch('http://52.221.195.16:4001/v1/check/match');
 
         if (response.ok) {
           const result = await response.json();
