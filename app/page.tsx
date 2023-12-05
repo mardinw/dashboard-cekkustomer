@@ -26,7 +26,7 @@ export default function Home() {
   useEffect( () => {
     const getData = async () => {
       try {
-        const response = await fetch('http://52.221.195.16:4001/v1/check/match');
+        const response = await fetch('http://18.142.198.179:4001/v1/check/match');
 
         if (response.ok) {
           const result = await response.json();
