@@ -10,7 +10,7 @@ interface AddressDetails {
 interface DPTItem {
   card_number: number;
   collector: string;
-  nama: string;
+  first_name: string;
   address_3: AddressDetails;
   address_4: AddressDetails;
   zip_code: number;
@@ -26,7 +26,7 @@ export default function Home() {
   useEffect( () => {
     const getData = async () => {
       try {
-        const response = await fetch('http://18.142.198.179:4001/v1/check/match');
+        const response = await fetch('http://localhost:4001/v1/check/match');
 
         if (response.ok) {
           const result = await response.json();
@@ -37,13 +37,6 @@ export default function Home() {
           const dataWithKeys = mergedData.map((item, index) => ({ ...item, customKey: `key_${index}` }));
 
           setDataDPT(dataWithKeys as DPTItem[])
-          // allDataArrays.forEach((dataArray, index) => {
-          //   if (Array.isArray(dataArray)) {
-          //     setDataDPT(dataArray as DPTItem[]);
-          //   } else {
-          //     console.error(`Data received for collection ${index} is not an array:`, dataArray)
-          //   }
-          // })
         } else {
           console.error('Failed to fetch data');
         }
@@ -81,7 +74,7 @@ export default function Home() {
           <TableCell>{index + 1}</TableCell>
           <TableCell>{item.card_number}</TableCell>
           <TableCell>{item.collector}</TableCell>
-          <TableCell>{item.nama}</TableCell>
+          <TableCell>{item.first_name}</TableCell>
           <TableCell>{item.address_3.String}</TableCell>
           <TableCell>{item.address_4.String}</TableCell>
           <TableCell>{item.zip_code}</TableCell>
