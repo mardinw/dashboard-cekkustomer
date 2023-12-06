@@ -4,6 +4,9 @@ import { Button, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader,
 import { AsyncListLoadOptions, useAsyncList } from "@react-stately/data";
 import { useEffect, useState } from "react"
 
+
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
 export default function TableMatch() {
   //const [dataDPT, setDataDPT] = useState<DPTItem[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -12,7 +15,7 @@ export default function TableMatch() {
 
   let list = useAsyncList<DPTItem[]>({
     async load({signal}){
-      let res = await fetch('http://localhost:4001/v1/check/match', {signal});
+      let res = await fetch(`${apiUrl}/v1/check/match`, {signal});
 
       if (!res.ok) {
         throw new Error(`Failed to fetch data: ${res.statusText}`)
