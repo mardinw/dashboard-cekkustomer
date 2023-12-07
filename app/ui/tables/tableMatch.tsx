@@ -1,6 +1,5 @@
 "use client"
 import { DPTItem } from "@/app/lib/dpt/definitions";
-import { Button, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/react"
 import { AsyncListLoadOptions, useAsyncList } from "@react-stately/data";
 import { useEffect, useState } from "react"
 
@@ -8,7 +7,7 @@ import { useEffect, useState } from "react"
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export default function TableMatch() {
-  //const [dataDPT, setDataDPT] = useState<DPTItem[]>([]);
+  const [dataDPT, setDataDPT] = useState<DPTItem[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -30,7 +29,7 @@ export default function TableMatch() {
         ...item, customKey: `key_${index}`
       }));
 
-      //setDataDPT(dataWithKeys as DPTItem[])
+      setDataDPT(dataWithKeys as DPTItem[])
       setIsLoading(false);
 
       return {
@@ -65,7 +64,7 @@ export default function TableMatch() {
         </tr>
       </thead>
       <tbody>
-      {list.items.map((item, index) => (
+      {dataDPT.map((item, index) => (
         <tr key={index}>
           <td>{index + 1}</td>
           <td>{item.card_number}</td>
