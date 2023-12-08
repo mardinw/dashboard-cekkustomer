@@ -2,6 +2,7 @@
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 import Link from 'next/link';
+
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export default function FormUploadExcel() {
@@ -26,6 +27,7 @@ export default function FormUploadExcel() {
       } catch (e: any){
         console.error(e)
       }
+      
   }
 
   return (
@@ -40,10 +42,10 @@ export default function FormUploadExcel() {
             Silahkan upload file yang akan anda cari
           </p>
           <div className="mb-8">
-            <input type="file" name="file" id="file" className="file-input file-input-bordered w-full max-w-xs mr-2" 
+            <input type="file" name="file" id="file" className="file-input sm:m-4 file-input-bordered w-full max-w-xs" 
               onChange={(e) => setFile(e.target.files?.[0])}
             />
-            <button className="btn btn-xs sm:btn-sm md:btn-md btn-primary text-white" type="submit">UPLOAD</button>
+            <button className="btn sm:btn-md md:btn-md btn-primary text-white" type="submit">UPLOAD</button>
           </div>
           
         </div>
