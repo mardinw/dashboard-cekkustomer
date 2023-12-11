@@ -15,7 +15,7 @@ export default function TableMatch() {
 
   let list = useAsyncList<DPTItem[]>({
     async load({signal}){
-      let res = await fetch(`${apiUrl}/v1/check/match`, {signal});
+      let res = await fetch(`${apiUrl}/v1/check/look`, {signal});
 
       if (!res.ok) {
         throw new Error(`Failed to fetch data: ${res.statusText}`)

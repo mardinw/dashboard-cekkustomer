@@ -26,3 +26,6 @@ export interface DataCustomer {
   concat_customer: string;
 }
 
+export interface FileList {
+  list_file: string;
+}
