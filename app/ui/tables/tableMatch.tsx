@@ -1,12 +1,13 @@
 "use client"
+import { appInfo } from "@/app/config/appInfo";
 import { DPTItem } from "@/app/lib/dpt/definitions";
 import { AsyncListLoadOptions, useAsyncList } from "@react-stately/data";
 import { useEffect, useState } from "react"
 
 
-const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-
 export default function TableMatch() {
+  const apiUrl = appInfo.apiDomain
+
   const [dataDPT, setDataDPT] = useState<DPTItem[]>([]);
   const [error, setError] = useState<string | null>(null);
 

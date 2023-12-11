@@ -1,16 +1,18 @@
 'use client'
-import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 import Link from 'next/link';
+import { appInfo } from "@/app/config/appInfo";
+import TablePreview from "../tables/tablePreview";
 
-const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export default function FormUploadExcel() {
+  const apiUrl = appInfo.apiDomain
   const [file, setFile] = useState<File>();
-  const router = useRouter();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    setIsLoading(true)
 
     if (!file) return
       try {
@@ -22,12 +24,39 @@ export default function FormUploadExcel() {
           body: data,
         })
 
-        router.push('/check/preview');
         if (!res.ok) throw new Error(await res.text())
       } catch (e: any){
         console.error(e)
+      } finally {
+        setIsLoading(false);
       }
       
+  }
+
+  const handleDownload = async () => {
+    const sampleFile = "sample_cekkustomer.xlsx"
+    try {
+      const downloadUrl = `${apiUrl}/v1/files/download/${sampleFile}`
+      const response = await fetch(downloadUrl);
+
+      if(!response.ok) {
+        throw new Error(`failed to download file: ${response.statusText}`);
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = sampleFile;
+      a.click();
+
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -39,13 +68,23 @@ export default function FormUploadExcel() {
         <div className="mb-6 pt-4">
           <label className="mb-5 block text-xl font-semibold text-[#07074D]">Upload File</label>
           <p className="m-1 text-sm leading-6 text-gray-600">
-            Silahkan upload file yang akan anda cari
+            Belum ada template ? bisa klik unduh file dibawah ini.
+          </p>
+          <button className="mb-6 btn sm:btn-md md:btn-md btn-accent text-white" type="submit" onClick={handleDownload}>UNDUH FILE</button>
+          <p className="mb-1 text-sm leading-6 text-gray-600">
+            Silahkan upload file format Excel yang akan anda compare datanya
           </p>
           <div className="mb-8">
             <input type="file" name="file" id="file" className="file-input sm:m-4 file-input-bordered w-full max-w-xs" 
               onChange={(e) => setFile(e.target.files?.[0])}
             />
             <button className="btn sm:btn-md md:btn-md btn-primary text-white" type="submit">UPLOAD</button>
+            {isLoading ? (
+              <progress className="progress w-56"></progress>
+            ) : (
+              file && <TablePreview fileName={file.name}/>
+            )
+            }
           </div>
           
         </div>

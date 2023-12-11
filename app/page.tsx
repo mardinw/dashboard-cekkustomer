@@ -1,7 +1,6 @@
 'use client'
 import { useEffect, useState } from "react";
 import FormUploadExcel from "./ui/forms/UploadExcel";
-import TablePreview from "./ui/tables/tablePreview";
 import { DataCustomer } from "./lib/dpt/definitions";
 
 
