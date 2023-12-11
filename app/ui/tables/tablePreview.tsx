@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import {DataCustomer} from "@/app/lib/dpt/definitions";
 import { appInfo } from "@/app/config/appInfo";
 
-const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export default function TablePreview({fileName} : {fileName: string}) {
   const apiUrl = appInfo.apiDomain 
@@ -48,7 +47,7 @@ export default function TablePreview({fileName} : {fileName: string}) {
     >
       <thead>
         <tr>
-          <th colSpan={7} className="text-center border">Data Customer</th>
+          <th colSpan={7} className="text-center border">Data Customer Preview</th>
         </tr>
         <tr>
           <th className="border">No</th>
