@@ -75,7 +75,7 @@ export default function FormUploadExcel() {
             Silahkan upload file format Excel yang akan anda compare datanya
           </p>
           <div className="mb-8">
-            <input type="file" name="file" id="file" className="file-input sm:m-4 file-input-bordered w-full max-w-xs" 
+            <input type="file" name="file" id="file" className="file-input sm:m-4 mb-4 file-input-bordered w-full max-w-xs" 
               onChange={(e) => setFile(e.target.files?.[0])}
             />
             <button className="btn sm:btn-md md:btn-md btn-primary text-white" type="submit">UPLOAD</button>

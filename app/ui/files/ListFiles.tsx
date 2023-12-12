@@ -58,7 +58,7 @@ export default function ListFiles() {
             <tr key={index}>
               <td>{nameAgencies}</td>
               <td>{file}</td>
-              <td><button className="btn mr-1 btn-primary text-white">PREVIEW</button><button className="btn mr-1 btn-accent text-white">CHECK</button></td>
+              <td><button className="btn mr-1 btn-primary text-white">{file}</button><button className="btn mr-1 btn-accent text-white">CHECK</button></td>
             </tr>
           ))}
         </tbody>
