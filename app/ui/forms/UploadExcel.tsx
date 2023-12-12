@@ -2,7 +2,6 @@
 import { FormEvent, useState } from "react";
 import Link from 'next/link';
 import { appInfo } from "@/app/config/appInfo";
-import TablePreview from "../tables/tablePreview";
 
 
 export default function FormUploadExcel() {
@@ -25,10 +24,12 @@ export default function FormUploadExcel() {
         })
 
         if (!res.ok) throw new Error(await res.text())
+        setIsLoading(true);
       } catch (e: any){
         console.error(e)
       } finally {
         setIsLoading(false);
+        window.location.reload();
       }
       
   }
@@ -61,11 +62,9 @@ export default function FormUploadExcel() {
 
   return (
       <form className="py-6 px-6" onSubmit={onSubmit}>
-        <div className="space-y-12">
-          <h2 className="mb-2 block text-xl font-semibold text-[#07074D]">Cek Data</h2>
-          <hr/>
-        </div>
-        <div className="mb-6 pt-4">
+        <h2 className="mb-2 block text-xl font-semibold text-[#07074D]">Cek Data</h2>
+          <hr className="mb-2"/>
+        <div className="mb-6">
           <label className="mb-5 block text-xl font-semibold text-[#07074D]">Upload File</label>
           <p className="m-1 text-sm leading-6 text-gray-600">
             Belum ada template ? bisa klik unduh file dibawah ini.
@@ -79,12 +78,6 @@ export default function FormUploadExcel() {
               onChange={(e) => setFile(e.target.files?.[0])}
             />
             <button className="btn sm:btn-md md:btn-md btn-primary text-white" type="submit">UPLOAD</button>
-            {isLoading ? (
-              <progress className="progress w-56"></progress>
-            ) : (
-              file && <TablePreview fileName={file.name}/>
-            )
-            }
           </div>
           
         </div>
