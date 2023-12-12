@@ -1,6 +1,7 @@
 import { appInfo } from "@/app/config/appInfo"
 import { useEffect, useState } from "react";
 import { FileList } from "@/app/lib/dpt/definitions";
+import PopUpTablePreview from "../popup/PopUpTablePreview";
 
 export default function ListFiles() {
   const apiUrl = appInfo.apiDomain
