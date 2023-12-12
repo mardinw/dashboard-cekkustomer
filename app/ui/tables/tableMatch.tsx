@@ -70,8 +70,16 @@ export default function TableMatch() {
           <td>{index + 1}</td>
           <td>{item.card_number}</td>
           <td>{item.first_name}</td>
+          {item.address_3.String ? (
           <td>{item.address_3.String}</td>
+          ) : (
+            <td></td>
+          )}
+          {item.address_4.String ? (
           <td>{item.address_4.String}</td>
+          ) : (
+            <td></td>
+          )}
           <td>{item.collector}</td>
           <td className="border-r">{item.zip_code}</td>
           <td>{item.kodepos}</td>
