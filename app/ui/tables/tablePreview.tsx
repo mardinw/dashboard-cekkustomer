@@ -15,6 +15,7 @@ export default function TablePreview({fileName} : {fileName: string|undefined}) 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setIsLoading(true);
         const response = await fetch(`${apiUrl}/v1/files/read/${fileName}`)
         const result: DataCustomer[] = await response.json();
 
