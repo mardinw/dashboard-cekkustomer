@@ -58,10 +58,8 @@ export default function ListFiles() {
     }
     setSelectedMatchFile(null);
 
-    setClickedPreviewButtons((prevClickedButtons) => ({
-      ...prevClickedButtons,
-      [file]: !prevClickedButtons[file],
-    }));
+    setClickedPreviewButtons({[file]: !clickedPreviewButtons[file]});
+    setClickedMatchButtons({});
   }
   
   const handleMatchClick = (file:string) => {
@@ -71,13 +69,13 @@ export default function ListFiles() {
       setSelectedMatchFile(file);
     }
     setSelectedPreviewFile(null);
-    setClickedMatchButtons((prevClickedButtons) => ({
-      ...prevClickedButtons,
-      [file]: !prevClickedButtons[file],
-    }));
+    setClickedMatchButtons({[file]: !clickedMatchButtons[file]});
+    setClickedPreviewButtons({})
   }
 
-  const isButtonClicked = (file:string) => clickedPreviewButtons[file];
+  const isButtonPreviewClicked = (file:string) => clickedPreviewButtons[file];
+
+  const isButtonMatchClicked = (file:string) => clickedMatchButtons[file];
 
   return (
     <div className="overflow-x-auto">
@@ -95,7 +93,7 @@ export default function ListFiles() {
               <td>{nameAgencies}</td>
               <td>{file}</td>
               <td>
-                <button className={`btn mr-1 ${isButtonClicked(file) ? "btn-error" : "btn-primary"} text-white`} onClick={() => handlePreviewClick(file)}>{isButtonClicked(file) ? <FaRegEye className="text-base" /> : <FaRegEyeSlash className="text-base" />}</button>
+                <button className="btn mr-1 btn-primary text-white" onClick={() => handlePreviewClick(file)}><FaRegEye className="text-base" /></button>
                 <button className="btn mr-1 btn-accent text-white" onClick={() => handleMatchClick(file)}><FaListCheck className="text-base" /></button>
                 <button className="btn mr-1 btn-error text-white"><FaDeleteLeft className="text-base"/></button>
               </td>

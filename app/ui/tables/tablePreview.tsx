@@ -35,7 +35,7 @@ export default function TablePreview({fileName} : {fileName: string|undefined}) 
     }
 
     fetchData();
-  }, [])
+  }, [fileName])
 
   if (error) {
     return <p>Error: {error}</p>
