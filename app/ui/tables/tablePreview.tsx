@@ -58,10 +58,10 @@ export default function TablePreview({fileName} : {fileName: string|undefined}) 
             <th className="border">No</th>
             <th className="border">Card Number</th>
             <th className="border">First Name</th>
+            <th className="border">Collector</th>
             <th className="border">Address 3</th>
             <th className="border">Address 4</th>
             <th className="border">Zip Code</th>
-            <th className="border">Collector</th>
           </tr>
         </thead>
         <tbody>
@@ -70,10 +70,10 @@ export default function TablePreview({fileName} : {fileName: string|undefined}) 
             <td>{index + 1}</td>
             <td>{item.card_number}</td>
             <td>{item.first_name}</td>
+            <td>{item.collector}</td>
             <td>{item.address_3}</td>
             <td>{item.address_4}</td>
             <td>{item.home_zip_code}</td>
-            <td>{item.collector}</td>
           </tr>
         ))}
         </tbody>
