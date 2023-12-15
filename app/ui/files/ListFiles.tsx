@@ -95,9 +95,9 @@ export default function ListFiles() {
     {isLoading ? (
       <p>Loading...</p>
     ) : (
-    <div className="overflow-x-auto">
+      <div className="overflow-auto m-4">
       {selectedDeleteFile && <DeleteFile fileName={selectedDeleteFile}/>}
-      <table className="table">
+        <table className="table table-xs">
         <thead>
           <tr>
             <th>Agencies</th>

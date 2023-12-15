@@ -60,24 +60,31 @@ export default function FormUploadExcel() {
   }
 
   return (
-      <form className="py-6 px-6" onSubmit={onSubmit}>
-        <h2 className="mb-2 block text-xl font-semibold text-[#07074D]">Cek Data</h2>
+    <form className="p-2" onSubmit={onSubmit}>
+        <h2 className="mt-2 block text-xl font-semibold text-[#07074D]">Cek Data</h2>
           <hr className="mb-2"/>
-        <div className="mb-6">
-          <label className="mb-5 block text-xl font-semibold text-[#07074D]">Upload File</label>
-          <p className="m-1 text-sm leading-6 text-gray-600">
-            Belum ada template ? bisa klik unduh file dibawah ini.
-          </p>
-          <button className="mb-6 btn sm:btn-md md:btn-md btn-accent text-white" type="submit" onClick={handleDownload}>UNDUH FILE</button>
-          <p className="mb-1 text-sm leading-6 text-gray-600">
-            Silahkan upload file format Excel yang akan anda cek datanya
-          </p>
-          <div className="mb-8">
-            <input type="file" name="file" id="file" className="file-input sm:m-4 mb-4 file-input-bordered w-full max-w-xs" 
-              onChange={(e) => setFile(e.target.files?.[0])}
-            />
-            <button className="btn sm:btn-md md:btn-md btn-primary text-white" type="submit">UPLOAD</button>
+      <div className="mb-6">
+            <label className="mb-5 block text-xl font-semibold text-[#07074D] flex flex-row">Upload File</label>
+        <div className="flex flex-col md:flex-row w-full">
+          <div className="grid h-32 md:h-20 flex-grow">
+            <p className="m-1 text-sm leading-6 text-gray-600">
+              Belum ada template ? bisa klik unduh file dibawah ini.
+            </p>
+            <button className="mb-6 btn btn-accent text-white flex-grow" type="submit" onClick={handleDownload}>UNDUH FILE</button>
           </div>
+          <div className="divider md:divider-horizontal">OR</div>
+          <div className="grid h-32 md:h-20 flex-grow">
+            <p className="m-1 text-sm leading-6 text-gray-600">
+              Silahkan upload file format Excel yang akan anda cek datanya
+            </p>
+            <div className="mb-8">
+              <input type="file" name="file" id="file" className="file-input mr-2 mb-4 file-input-bordered w-full max-w-xs" 
+                onChange={(e) => setFile(e.target.files?.[0])}
+              />
+              <button className="btn sm:btn-md md:btn-md btn-primary text-white" type="submit">UPLOAD</button>
+            </div>
+          </div>
+        </div>
           
         </div>
       </form>

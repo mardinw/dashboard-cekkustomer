@@ -48,7 +48,7 @@ export default function TablePreview({fileName} : {fileName: string|undefined}) 
       ) : (
       <table 
         aria-label="load check match table"
-        className="table"
+        className="table table-xs"
       >
         <thead>
           <tr>
