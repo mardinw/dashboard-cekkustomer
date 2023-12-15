@@ -25,7 +25,7 @@ interface DatabaseMatch {
 }
 
 export default function ResultTable({results}: ResultTableProps) {
-
+  let globalIndex = 1
   return (
     <div>
       <table 
@@ -55,8 +55,8 @@ export default function ResultTable({results}: ResultTableProps) {
       <tbody>
     {Object.entries(results).map(([tableName, tableData]) => (
         tableData.db_match.map((match, index) => (
-          <tr key={`${tableName}-${index}`}>
-            <td>{index+1}</td>
+          <tr key={index+1}>
+            <td>{globalIndex++}</td>
             <td>{tableData.card_number}</td>
             <td>{tableData.first_name}</td>
             <td>{tableData.collector}</td>
