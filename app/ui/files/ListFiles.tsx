@@ -5,6 +5,7 @@ import PopUpTablePreview from "../popup/PopUpTablePreview";
 import { FaDeleteLeft, FaListCheck, FaRegEye, FaRegEyeSlash }from "react-icons/fa6";
 import TablePreview from "../tables/tablePreview";
 import TableMatch from "../tables/tableMatch";
+import DeleteFile from "./DeleteFile";
 
 export default function ListFiles() {
   const apiUrl = appInfo.apiDomain
@@ -14,10 +15,14 @@ export default function ListFiles() {
   const nameAgencies = "pass"
   const [error, setError] = useState<string | null>(null);
   const [files, setFiles] = useState<string[]>([]);
+  
   const [selectedPreviewFile, setSelectedPreviewFile] = useState<string|null>(null);
   const [selectedMatchFile, setSelectedMatchFile] = useState<string|null>(null);
+  const [selectedDeleteFile, setSelectedDeleteFile] = useState<string>('');
+  
   const [clickedPreviewButtons, setClickedPreviewButtons] = useState<Record<string, boolean>>({});
   const [clickedMatchButtons, setClickedMatchButtons] = useState<Record<string, boolean>>({});
+  const [clickedDeleteButtons, setClickedDeleteButtons] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     const fetchFiles = async () => {
@@ -72,6 +77,10 @@ export default function ListFiles() {
     setClickedMatchButtons({[file]: !clickedMatchButtons[file]});
     setClickedPreviewButtons({})
   }
+  
+  const handleDeleteClick = (file:string) => {
+      setSelectedDeleteFile(file);
+  }
 
   const isButtonPreviewClicked = (file:string) => clickedPreviewButtons[file];
 
@@ -79,6 +88,7 @@ export default function ListFiles() {
 
   return (
     <div className="overflow-x-auto">
+      {selectedDeleteFile && <DeleteFile fileName={selectedDeleteFile}/>}
       <table className="table">
         <thead>
           <tr>
@@ -95,7 +105,7 @@ export default function ListFiles() {
               <td>
                 <button className="btn mr-1 btn-primary text-white" onClick={() => handlePreviewClick(file)}><FaRegEye className="text-base" /></button>
                 <button className="btn mr-1 btn-accent text-white" onClick={() => handleMatchClick(file)}><FaListCheck className="text-base" /></button>
-                <button className="btn mr-1 btn-error text-white"><FaDeleteLeft className="text-base"/></button>
+                <button className="btn mr-1 btn-error text-white" onClick={() => handleDeleteClick(file)}><FaDeleteLeft className="text-base"/></button>
               </td>
             </tr>
           ))}

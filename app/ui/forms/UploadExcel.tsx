@@ -71,7 +71,7 @@ export default function FormUploadExcel() {
           </p>
           <button className="mb-6 btn sm:btn-md md:btn-md btn-accent text-white" type="submit" onClick={handleDownload}>UNDUH FILE</button>
           <p className="mb-1 text-sm leading-6 text-gray-600">
-            Silahkan upload file format Excel yang akan anda compare datanya
+            Silahkan upload file format Excel yang akan anda cek datanya
           </p>
           <div className="mb-8">
             <input type="file" name="file" id="file" className="file-input sm:m-4 mb-4 file-input-bordered w-full max-w-xs" 
