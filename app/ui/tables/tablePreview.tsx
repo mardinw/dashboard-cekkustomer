@@ -44,7 +44,7 @@ export default function TablePreview({fileName} : {fileName: string|undefined}) 
   return (
     <>
       {isLoading ? (
-        <progress className="progress w-56"></progress>
+        <p>Loading...</p>
       ) : (
       <table 
         aria-label="load check match table"

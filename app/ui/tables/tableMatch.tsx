@@ -42,7 +42,7 @@ export default function TableMatch({fileName}: {fileName:string}) {
   return (
     <>
       {isLoading ? (
-        <progress className="progress w-56"></progress>
+        <p>Loading...</p>
       ) : (
       data && <ResultTable results={data} />
       )}

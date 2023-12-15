@@ -15,6 +15,7 @@ export default function ListFiles() {
   const nameAgencies = "pass"
   const [error, setError] = useState<string | null>(null);
   const [files, setFiles] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   
   const [selectedPreviewFile, setSelectedPreviewFile] = useState<string|null>(null);
   const [selectedMatchFile, setSelectedMatchFile] = useState<string|null>(null);
@@ -27,6 +28,7 @@ export default function ListFiles() {
   useEffect(() => {
     const fetchFiles = async () => {
       try {
+        setIsLoading(true);
         const response = await fetch(`${apiUrl}/v1/files/list/${folderCek}`)
         const result = await response.json();
 
@@ -45,6 +47,8 @@ export default function ListFiles() {
         }
       } catch (e: any) {
         console.error('Error fetching data:', e);
+      } finally {
+        setIsLoading(false);
       }
     }
     fetchFiles();
@@ -87,6 +91,10 @@ export default function ListFiles() {
   const isButtonMatchClicked = (file:string) => clickedMatchButtons[file];
 
   return (
+    <>
+    {isLoading ? (
+      <p>Loading...</p>
+    ) : (
     <div className="overflow-x-auto">
       {selectedDeleteFile && <DeleteFile fileName={selectedDeleteFile}/>}
       <table className="table">
@@ -103,7 +111,7 @@ export default function ListFiles() {
               <td>{nameAgencies}</td>
               <td>{file}</td>
               <td>
-                <button className="btn mr-1 btn-primary text-white" onClick={() => handlePreviewClick(file)}><FaRegEye className="text-base" /></button>
+                <button className="btn mr-1 btn-info text-white" onClick={() => handlePreviewClick(file)}><FaRegEye className="text-base" /></button>
                 <button className="btn mr-1 btn-accent text-white" onClick={() => handleMatchClick(file)}><FaListCheck className="text-base" /></button>
                 <button className="btn mr-1 btn-error text-white" onClick={() => handleDeleteClick(file)}><FaDeleteLeft className="text-base"/></button>
               </td>
@@ -114,5 +122,8 @@ export default function ListFiles() {
       {selectedPreviewFile && <TablePreview fileName={selectedPreviewFile} />}
       {selectedMatchFile && <TableMatch fileName={selectedMatchFile} />}
     </div>
-  );
+      )}
+    </>
+  )
+  ;
 }
