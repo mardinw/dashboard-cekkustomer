@@ -51,7 +51,7 @@ export default function ResultTable({locationData}: ResultTableProps) {
       <tbody>
         {Object.values(locationData).map((locationArray: ItemProps[], index) => (
           locationArray.map((item, itemIndex) => (
-          <tr>
+          <tr key={`${index}-${itemIndex}`}>
             <td>{globalIndex++}</td>
             <td>{item.card_number}</td>
             <td>{item.first_name}</td>
