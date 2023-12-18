@@ -1,12 +1,12 @@
 export interface ResultTableProps {
-  results: Results;
+  locationData: locationProps
 }
 
-export interface Results {
-  [key: string]: ResultItem;
+export interface locationProps {
+  location: ItemProps[]
 }
 
-interface ResultItem {
+interface ItemProps {
   card_number: string;
   first_name: string;
   address_3: string;
@@ -14,18 +14,15 @@ interface ResultItem {
   home_zip_code: string;
   concat_customer: string;
   collector: string;
-  db_match: DatabaseMatch[];
-}
-
-interface DatabaseMatch {
   nama: string;
   kelurahan: string;
   kecamatan: string;
   kodepos: number;
 }
 
-export default function ResultTable({results}: ResultTableProps) {
+export default function ResultTable({locationData}: ResultTableProps) {
   let globalIndex = 1
+
   return (
     <div>
       <table 
@@ -49,28 +46,26 @@ export default function ResultTable({results}: ResultTableProps) {
           <th className="border">Nama</th>
           <th className="border">Kelurahan</th>
           <th className="border">Kecamatan</th>
-          <th className="border">Lokasi</th>
         </tr>
       </thead>
       <tbody>
-    {Object.entries(results).map(([tableName, tableData]) => (
-        tableData.db_match.map((match, index) => (
-          <tr key={index+1}>
+        {Object.values(locationData).map((locationArray: ItemProps[], index) => (
+          locationArray.map((item, itemIndex) => (
+          <tr key={globalIndex++}>
             <td>{globalIndex++}</td>
-            <td>{tableData.card_number}</td>
-            <td>{tableData.first_name}</td>
-            <td>{tableData.collector}</td>
-            <td>{tableData.address_3}</td>
-            <td>{tableData.address_4}</td>
-            <td>{tableData.home_zip_code}</td>
-            <td>{match.kodepos}</td>
-            <td>{match.nama}</td>
-            <td>{match.kelurahan}</td>
-            <td>{match.kecamatan}</td>
-            <td>{tableName}</td>
+            <td>{item.card_number}</td>
+            <td>{item.first_name}</td>
+            <td>{item.collector}</td>
+            <td>{item.address_3}</td>
+            <td>{item.address_4}</td>
+            <td>{item.home_zip_code}</td>
+            <td>{item.kodepos}</td>
+            <td>{item.nama}</td>
+            <td>{item.kelurahan}</td>
+            <td>{item.kecamatan}</td>
           </tr>
-        ))
-    ))}
+          ))
+        ))}
       </tbody>
       </table>
     </div>

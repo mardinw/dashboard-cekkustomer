@@ -43,7 +43,7 @@ export default function ListFiles() {
         if (Array.isArray(result.files)) {
           setFiles(result.files);
         } else {
-          setError(`Invalid data format ${response.statusText}`);
+          setError('Belum ada file yang diupload');
         }
       } catch (e: any) {
         console.error('Error fetching data:', e);
