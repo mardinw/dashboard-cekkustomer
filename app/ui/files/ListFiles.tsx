@@ -6,13 +6,13 @@ import { FaDeleteLeft, FaListCheck, FaRegEye, FaRegEyeSlash }from "react-icons/f
 import TablePreview from "../tables/tablePreview";
 import TableMatch from "../tables/tableMatch";
 import DeleteFile from "./DeleteFile";
+import TableExport from "../tables/tableExport";
 
 export default function ListFiles() {
   const apiUrl = appInfo.apiDomain
-
   const folderCek = "folder-user"
-
   const nameAgencies = "pass"
+  
   const [error, setError] = useState<string | null>(null);
   const [files, setFiles] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -120,7 +120,12 @@ export default function ListFiles() {
         </tbody>
       </table>
       {selectedPreviewFile && <TablePreview fileName={selectedPreviewFile} />}
-      {selectedMatchFile && <TableMatch fileName={selectedMatchFile} />}
+      {selectedMatchFile && ( 
+        <>
+        <TableExport fileName={selectedMatchFile}/>
+        <TableMatch fileName={selectedMatchFile} />
+        </>
+        )}
     </div>
       )}
     </>

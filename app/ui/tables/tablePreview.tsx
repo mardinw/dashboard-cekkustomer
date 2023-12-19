@@ -22,6 +22,8 @@ export default function TablePreview({fileName} : {fileName: string|undefined}) 
         if (!response.ok) {
           if (response.status === 400) {
             setError("Bad request: format tabel anda kurang tepat.");
+          } else if (response.status === 404) {
+            setError("Data tidak ada")
           } else {
             setError(`Server error: ${response.statusText}`);
           }
@@ -38,7 +40,7 @@ export default function TablePreview({fileName} : {fileName: string|undefined}) 
   }, [fileName])
 
   if (error) {
-    return <p>Error: {error}</p>
+    return <p>{error}</p>
   }
 
   return (
@@ -65,7 +67,7 @@ export default function TablePreview({fileName} : {fileName: string|undefined}) 
           </tr>
         </thead>
         <tbody>
-          {fetchData.map((item, index) => (
+          {fetchData?.map((item, index) => (
           <tr key={index}>
             <td>{index + 1}</td>
             <td>{item.card_number}</td>

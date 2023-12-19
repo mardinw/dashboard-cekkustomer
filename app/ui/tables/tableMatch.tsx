@@ -4,6 +4,7 @@ import ResultTable, { ResultTableProps, locationProps } from "@/app/lib/dpt/Data
 import { DPTItem } from "@/app/lib/dpt/definitions";
 import { Result } from "postcss";
 import { useEffect, useState } from "react"
+import TableExport from "./tableExport";
 
 
 export default function TableMatch({fileName}: {fileName:string}) {
@@ -44,7 +45,8 @@ export default function TableMatch({fileName}: {fileName:string}) {
       {isLoading ? (
         <p>Loading...</p>
       ) : (
-      data && <ResultTable locationData={data} />
+      data && 
+        <ResultTable locationData={data} />
       )}
     </>
   )
