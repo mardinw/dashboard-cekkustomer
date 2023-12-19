@@ -70,7 +70,7 @@ export default function FormUploadExcel() {
             <p className="m-1 text-sm leading-6 text-gray-600">
               Belum ada template ? bisa klik unduh file dibawah ini.
             </p>
-            <button className="mb-6 btn btn-accent text-white flex-grow" type="submit" onClick={handleDownload}>UNDUH FILE</button>
+            <button className="mb-6 btn btn-accent text-white flex-grow" type="submit" onClick={handleDownload}>UNDUH TEMPLATE</button>
           </div>
           <div className="divider md:divider-horizontal">OR</div>
           <div className="grid h-32 md:h-20 flex-grow">

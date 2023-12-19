@@ -43,9 +43,9 @@ export default function ResultTable({locationData}: ResultTableProps) {
           <th className="border">Address 4</th>
           <th className="border">Zip Code</th>
           <th className="border">Kodepos</th>
-          <th className="border">Nama</th>
           <th className="border">Kelurahan</th>
           <th className="border">Kecamatan</th>
+          <th className="border">Nama</th>
         </tr>
       </thead>
       <tbody>
@@ -60,9 +60,9 @@ export default function ResultTable({locationData}: ResultTableProps) {
             <td>{item.address_4}</td>
             <td>{item.home_zip_code}</td>
             <td>{item.kodepos}</td>
-            <td>{item.nama}</td>
             <td>{item.kelurahan}</td>
             <td>{item.kecamatan}</td>
+            <td>{item.nama}</td>
           </tr>
           ))
         ))}
