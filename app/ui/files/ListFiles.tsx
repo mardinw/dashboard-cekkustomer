@@ -124,7 +124,6 @@ export default function ListFiles() {
       {selectedMatchFile && ( 
         <>
         <TableExport fileName={selectedMatchFile}/>
-          <SearchName />
         <TableMatch fileName={selectedMatchFile} />
         </>
         )}

@@ -16,6 +16,7 @@ export default function FormUploadExcel() {
 
     if (!file) return
       try {
+        setIsUploading(true);
         const data = new FormData()
         data.set('file', file)
 
@@ -32,7 +33,6 @@ export default function FormUploadExcel() {
             throw new Error(await res.text());
           }
         }
-        setIsUploading(true);
       } catch (e: any){
         console.error(e)
       } finally {
