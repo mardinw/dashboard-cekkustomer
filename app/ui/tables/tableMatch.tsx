@@ -5,7 +5,6 @@ import { DPTItem } from "@/app/lib/dpt/definitions";
 import { Result } from "postcss";
 import { KeyboardEvent, useEffect, useState } from "react"
 import TableExport from "./tableExport";
-import SearchName from "../forms/SearchName";
 import {MdClear} from 'react-icons/md';
 import {FaMagnifyingGlass} from 'react-icons/fa6';
 
