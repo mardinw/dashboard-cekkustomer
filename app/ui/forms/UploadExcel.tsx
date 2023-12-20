@@ -7,7 +7,9 @@ import { appInfo } from "@/app/config/appInfo";
 export default function FormUploadExcel() {
   const apiUrl = appInfo.apiDomain
   const [file, setFile] = useState<File>();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isUploading, setIsUploading] = useState<boolean>(false);
+  const [isDownloading, setIsDownloading] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -22,13 +24,22 @@ export default function FormUploadExcel() {
           body: data,
         })
 
-        if (!res.ok) throw new Error(await res.text())
-        setIsLoading(true);
+        if (!res.ok) {
+          if (res.status === 400) {
+            const errorText = await res.text();
+            setErrorMessage(`Bad Request: ${errorText}`)
+          } else {
+            throw new Error(await res.text());
+          }
+        }
+        setIsUploading(true);
       } catch (e: any){
         console.error(e)
       } finally {
-        setIsLoading(false);
-        window.location.reload();
+        setIsUploading(false);
+        setTimeout(() => {
+          window.location.reload();
+        }, 5000);
       }
       
   }
@@ -36,6 +47,7 @@ export default function FormUploadExcel() {
   const handleDownload = async () => {
     const sampleFile = "sample_cekkustomer.xlsx"
     try {
+      setIsDownloading(true);
       const downloadUrl = `${apiUrl}/v1/files/download/${sampleFile}`
       const response = await fetch(downloadUrl);
 
@@ -55,7 +67,7 @@ export default function FormUploadExcel() {
     } catch (error) {
       console.error('Error:', error);
     } finally {
-      setIsLoading(false);
+      setIsDownloading(false);
     }
   }
 
@@ -70,7 +82,7 @@ export default function FormUploadExcel() {
             <p className="m-1 text-sm leading-6 text-gray-600">
               Belum ada template ? bisa klik unduh file dibawah ini.
             </p>
-            <button className="mb-6 btn btn-accent text-white flex-grow" type="submit" onClick={handleDownload}>UNDUH TEMPLATE</button>
+            <button className="mb-6 btn btn-accent text-white flex-grow" type="submit" onClick={handleDownload}>{isDownloading ? 'Downloading...': 'UNDUH TEMPLATE'}</button>
           </div>
           <div className="divider md:divider-horizontal">OR</div>
           <div className="grid h-32 md:h-20 flex-grow">
@@ -81,12 +93,12 @@ export default function FormUploadExcel() {
               <input type="file" name="file" id="file" className="file-input mr-2 mb-4 file-input-bordered w-full max-w-xs" 
                 onChange={(e) => setFile(e.target.files?.[0])}
               />
-              <button className="btn sm:btn-md md:btn-md btn-primary text-white" type="submit">UPLOAD</button>
+              <button className="btn sm:btn-md md:btn-md btn-primary text-white" type="submit">{isUploading ? 'Uploading...' : 'UPLOAD'}</button>
             </div>
           </div>
         </div>
-          
         </div>
+      {errorMessage && <p className="text-error">{errorMessage}</p>}
       </form>
   );
 }

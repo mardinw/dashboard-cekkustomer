@@ -7,6 +7,7 @@ import TablePreview from "../tables/tablePreview";
 import TableMatch from "../tables/tableMatch";
 import DeleteFile from "./DeleteFile";
 import TableExport from "../tables/tableExport";
+import SearchName from "../forms/SearchName";
 
 export default function ListFiles() {
   const apiUrl = appInfo.apiDomain
@@ -123,6 +124,7 @@ export default function ListFiles() {
       {selectedMatchFile && ( 
         <>
         <TableExport fileName={selectedMatchFile}/>
+          <SearchName />
         <TableMatch fileName={selectedMatchFile} />
         </>
         )}
