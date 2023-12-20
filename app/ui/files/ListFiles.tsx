@@ -7,7 +7,8 @@ import TablePreview from "../tables/tablePreview";
 import TableMatch from "../tables/tableMatch";
 import DeleteFile from "./DeleteFile";
 import TableExport from "../tables/tableExport";
-import SearchName from "../forms/SearchName";
+import {MdClear} from 'react-icons/md';
+import {FaMagnifyingGlass} from 'react-icons/fa6';
 
 export default function ListFiles() {
   const apiUrl = appInfo.apiDomain
@@ -27,35 +28,36 @@ export default function ListFiles() {
   const [clickedDeleteButtons, setClickedDeleteButtons] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
-    const fetchFiles = async () => {
-      try {
-        setIsLoading(true);
-        const response = await fetch(`${apiUrl}/v1/files/list/${folderCek}`)
-        const result = await response.json();
+  const fetchFiles = async () => {
+    try {
+      setIsLoading(true);
+      const response = await fetch(`${apiUrl}/v1/files/list/${folderCek}`)
+      const result = await response.json();
 
-        if (!response.ok) {
-          if (response.status === 400) {
-            setError("belum ada files");
-          } else {
-            setError(`Server error: ${response.statusText}`);
-          }
-        }
-        
-        if (Array.isArray(result.files)) {
-          setFiles(result.files);
+      if (!response.ok) {
+        if (response.status === 400) {
+          setError("belum ada files");
         } else {
-          setError('Belum ada file yang diupload');
+          setError(`Server error: ${response.statusText}`);
         }
-      } catch (e: any) {
-        console.error('Error fetching data:', e);
-      } finally {
-        setIsLoading(false);
       }
+      
+      if (Array.isArray(result.files)) {
+        setFiles(result.files);
+      } else {
+        setError('Belum ada file yang diupload');
+      }
+    } catch (e: any) {
+      console.error('Error fetching data:', e);
+    } finally {
+      setIsLoading(false);
     }
+  }
     fetchFiles();
   }, [])
 
-
+  
+ 
   if (error) {
     return <p>{error}</p>
   }
