@@ -18,12 +18,13 @@ export default function Login() {
 	const [password, setPassword] = useState<string>("");
 	const [ isMutating, setIsMutating ] = useState(false);
 	const [ isVisible, setIsVisible ] = useState(false);
+	const [isError, setError] = useState<string>("");
 
 	const toggleVisibility = () => setIsVisible(!isVisible);
 
 	const router = useRouter();
 
-	async function handleSubmit(event: SyntheticEvent) {
+	async function handleLogin(event: SyntheticEvent) {
 		event.preventDefault();
 
 		setIsMutating(true);
@@ -36,20 +37,18 @@ export default function Login() {
 				body: JSON.stringify({
 					email: email,
 					password: password,
-				})
+				}),
 			});
 
-			const result = await res.json();
-			console.log(result)
-			if (res.ok && result) {
-				return result;
-				throw new Error(`Error status: ${res.status}`);
-			} else if (!res.ok) {
-				throw new Error(`Error! status: ${res.status}`);
+			if (!res.ok) {
+				throw new Error('Invalid credentials');
 			}
-			return null;
+			const data = await res.json();
+			console.log('Login successfully', data);
+			router.push('/');
 		} catch (err) {
-			console.log(err);
+			console.error('Login failed:', err);
+			setError('Login failed. Please check your credentials');
 		} finally {
 			setEmail("");
 			setPassword("");
@@ -57,17 +56,20 @@ export default function Login() {
 		}
 	}
 
+
   return (
     <main>
 			<div className="hero min-h-screen bg-base-200">
 				<div className="hero-content flex-col lg:flex-row-reverse">
 					<div className="card shrink-0 w-full shadow-2xl bg-base-100">
-						<form className="card-body">
+						<form className="card-body" onSubmit={handleLogin}>
 							<div className="form-control">
 								<label className="label">
 									<span className="label-text">Email</span>
 								</label>
-								<input type="email" placeholder="email" className="input input-bordered" 
+								<input 
+									value={email}
+									type="email" placeholder="email" className="input input-bordered" 
 									onChange={(e) => setEmail(e.target.value)}	
 								required />
 							</div>
@@ -76,20 +78,21 @@ export default function Login() {
 									<span className="label-text">Password</span>
 								</label>
 								<input 
+									value={password}
 									type="password" 
 									placeholder="password" 
 									className="input input-bordered" 
 									onChange={(e) => setPassword(e.target.value)}
 								required />
 								<label className="label">
-									<Link href="/auth/reset" className="label-text-alt link link-hover">Lupa password?</Link>
+									<Link href="/auth/forgot" className="label-text-alt link link-hover">Lupa password?</Link>
 								</label>
 							</div>
 							<div className="form-control mt-4">
 								{isMutating ? (
-								<button disabled={isMutating} className="btn btn-primary text-white">LOGIN...</button>
+								<button type="submit" disabled={isMutating} className="btn btn-primary text-white">LOADING...</button>
 								) : (
-								<button disabled={isMutating} className="btn btn-primary text-white">LOGIN</button>
+								<button type="submit" disabled={isMutating} className="btn btn-primary text-white">LOGIN</button>
 								)}
 								<Link href="/auth/register" className="mt-2 label-text-alt link link-hover">Belum punya akun?</Link>
 							</div>
