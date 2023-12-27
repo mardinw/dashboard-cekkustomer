@@ -8,8 +8,21 @@ export default function TableExport({fileName}: {fileName:string}) {
 
 
     const getFiles = async () => {
+      const sessionStorageData = sessionStorage.getItem('authData');
+      if (!sessionStorageData) {
+        console.error('Data sesi tidak ditemukan');
+        return;
+      }
+      const parsedData = JSON.parse(sessionStorageData);
+      const accessToken = parsedData.access_token;
+
       try {
-        const response = await fetch(`${apiUrl}/v1/files/export/${fileName}`)
+        const response = await fetch(`${apiUrl}/v1/files/export/${fileName}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+          },
+        });
 
         if(!response.ok) {
           throw new Error(`failed to download file: ${response.statusText}`);

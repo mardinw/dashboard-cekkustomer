@@ -14,9 +14,25 @@ export default function TablePreview({fileName} : {fileName: string|undefined}) 
 
   useEffect(() => {
     const fetchData = async () => {
+      const sessionStorageData = sessionStorage.getItem('authData');
+
+      if (!sessionStorageData) {
+        console.error('Data sesi tidak ditemukan');
+        return;
+      }
+
+      const parsedData = JSON.parse(sessionStorageData);
+      const accessToken = parsedData.access_token;
+
       try {
         setIsLoading(true);
-        const response = await fetch(`${apiUrl}/v1/files/read/${fileName}`)
+        const response = await fetch(`${apiUrl}/v1/files/read/${fileName}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+          },
+        })
+
         const result: DataCustomer[] = await response.json();
 
         if (!response.ok) {

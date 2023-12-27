@@ -3,6 +3,7 @@ import { appInfo } from "@/app/config/appInfo";
 import { useRouter } from "next/navigation";
 import { SyntheticEvent, useMemo, useState } from "react"
 import Link from 'next/link';
+import { setAccessToken } from "@/app/utils/auth";
 
 export default function Login() {
 	const apiUrl = appInfo.apiDomain
@@ -44,7 +45,8 @@ export default function Login() {
 				throw new Error('Invalid credentials');
 			}
 			const data = await res.json();
-			console.log('Login successfully', data);
+
+			setAccessToken(data.access_token);
 			router.push('/');
 		} catch (err) {
 			console.error('Login failed:', err);

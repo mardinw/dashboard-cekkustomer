@@ -12,7 +12,18 @@ export default function FormUploadExcel() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    const sessionStorageData = sessionStorage.getItem('authData');
+
+    if (!sessionStorageData) {
+      console.error('Data sesi tidak ditemukan');
+      return;
+    }
+
+    const parsedData = JSON.parse(sessionStorageData);
+    const accessToken = parsedData.access_token;
+
     e.preventDefault()
+
 
     if (!file) return
       try {
@@ -22,6 +33,9 @@ export default function FormUploadExcel() {
 
         const res = await fetch(`${apiUrl}/v1/files/import`, {
           method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+          },
           body: data,
         })
 
@@ -46,10 +60,23 @@ export default function FormUploadExcel() {
 
   const handleDownload = async () => {
     const sampleFile = "sample_cekkustomer.xlsx"
+    const sessionStorageData = sessionStorage.getItem('authData');
+    if (!sessionStorageData) {
+      console.error('Data sesi tidak ditemukan');
+      return;
+    }
+    const parsedData = JSON.parse(sessionStorageData);
+    const accessToken = parsedData.access_token;
+    
     try {
       setIsDownloading(true);
       const downloadUrl = `${apiUrl}/v1/files/download/${sampleFile}`
-      const response = await fetch(downloadUrl);
+      const response = await fetch(downloadUrl, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${accessToken},`
+        },
+      });
 
       if(!response.ok) {
         throw new Error(`failed to download file: ${response.statusText}`);

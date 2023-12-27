@@ -19,9 +19,23 @@ export default function TableMatch({fileName}: {fileName:string}) {
   const [searchName, setSearchName] = useState<string>("");
 
   const fetchData = async (nama : string = "") => {
+    const sessionStorageData = sessionStorage.getItem('authData');
+
+    if (!sessionStorageData) {
+      console.error('Data sesi tidak ditemukan');
+      return;
+    }
+    const parsedData = JSON.parse(sessionStorageData);
+    const accessToken = parsedData.access_token;
+
     try {
       setIsLoading(true);
-      const response = await fetch(`${apiUrl}/v1/check/look/${fileName}?nama=${nama}`)
+      const response = await fetch(`${apiUrl}/v1/check/match/${fileName}?nama=${nama}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+        },
+      });
   
       if(!response.ok) {
         if (response.status === 400) {
