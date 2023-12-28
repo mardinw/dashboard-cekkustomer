@@ -92,6 +92,31 @@ export default function ResetPassword() {
 			setIsMutating(false);
 		}
 	}
+	
+	async function handleResendCode(event: SyntheticEvent) {
+		event.preventDefault();
+
+		try {
+			const res = await fetch(`${apiUrl}/v1/auth/resend`, {
+				method: 'POST',
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					email:email,
+				})
+			});
+			const result = await res.json();
+
+			if (!res.ok) {
+				throw new Error(`Error! status: ${res.status}`)
+			}
+		} catch (err) {
+			console.error(err);
+		} finally {
+			setEmail("");
+		}
+	}
 
   return (
     <main>
@@ -113,6 +138,7 @@ export default function ResetPassword() {
 								<label className="label">
 									<span className="label-text">{formatTime(seconds)}</span>
 								</label>
+								<button className="btn btn-secondary text-white" onClick={handleResendCode}>KIRIM ULANG CODE</button>
 							</div>
 							<div className="form-control">
 								<label className="label">
@@ -158,5 +184,4 @@ export default function ResetPassword() {
 			</div>
     </main>
   )
-
 }

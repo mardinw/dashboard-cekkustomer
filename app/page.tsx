@@ -13,14 +13,33 @@ export default function Home() {
 
   const apiUrl = appInfo.apiDomain;
 
-  useEffect(() => {
-    const accessToken = getAccessToken();
-    if (accessToken) {
-      console.log('User is logged in success');
-    } else {
-      clearAccessToken();
-      router.push('/auth/login');
+  const isAuthorize = async () => {
+      const sessionStorageData = sessionStorage.getItem('authData');
+      if (!sessionStorageData) {
+        router.push('/auth/login');
+        return
+      }
+      const parsedData = JSON.parse(sessionStorageData);
+      const accessToken = parsedData.access_token;
+    try {
+      const res = await fetch(`${apiUrl}/v1/auth/check`, {
+        method: 'GET',
+        headers: {
+          "Authorization": `Bearer ${accessToken}`,
+        },
+      });
+
+      if (res.status === 401) {
+        clearAccessToken();
+        router.push('/auth/login');
+      }
+    } catch (e) {
+      console.error(e)
     }
+  }
+
+  useEffect(() => {
+     isAuthorize();
   }, [])
 
   const handleLogout = async() => {

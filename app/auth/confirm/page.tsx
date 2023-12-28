@@ -64,7 +64,6 @@ export default function Confirm() {
 	async function handleResendCode(event: SyntheticEvent) {
 		event.preventDefault();
 
-		setIsMutating(true);
 		try {
 			const res = await fetch(`${apiUrl}/v1/auth/resend`, {
 				method: 'POST',
@@ -84,7 +83,6 @@ export default function Confirm() {
 			console.error(err);
 		} finally {
 			setEmail("");
-			setIsMutating(false);
 		}
 	}
 
