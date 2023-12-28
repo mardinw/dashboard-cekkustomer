@@ -147,6 +147,11 @@ export default function ResetPassword() {
 								<button disabled={isMutating} type="submit" className="btn btn-primary text-white">RESET PASSWORD</button>
 								)}
 							</div>
+							<div className="form-control">
+								<label className="label">
+									<Link href="/auth/login" className="label-text-alt link link-hover">Kembali</Link>
+								</label>
+							</div>
 						</form>
 					</div>
 				</div>

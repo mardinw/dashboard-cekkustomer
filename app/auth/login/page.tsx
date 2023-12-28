@@ -47,6 +47,7 @@ export default function Login() {
 			const data = await res.json();
 
 			setAccessToken(data.access_token);
+			localStorage.removeItem("email");
 			router.push('/');
 		} catch (err) {
 			console.error('Login failed:', err);

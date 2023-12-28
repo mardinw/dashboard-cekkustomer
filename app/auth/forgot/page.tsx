@@ -2,6 +2,7 @@
 import { appInfo } from "@/app/config/appInfo";
 import { useRouter } from "next/navigation";
 import { SyntheticEvent, useMemo, useState } from "react";
+import Link from 'next/link';
 
 export default function ForgotPassword() {
 	const apiUrl = appInfo.apiDomain;
@@ -63,6 +64,11 @@ export default function ForgotPassword() {
 							</div>
 							<div className="form-control mt-6">
 								<button type="submit" className="btn btn-primary text-white">KIRIM</button>
+							</div>
+							<div className="form-control">
+								<label className="label">
+									<Link href="/auth/login" className="label-text-alt link link-hover">Kembali</Link>
+								</label>
 							</div>
 						</form>
 					</div>

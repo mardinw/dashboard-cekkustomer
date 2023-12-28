@@ -2,6 +2,7 @@
 import { appInfo } from "@/app/config/appInfo";
 import { useRouter } from "next/navigation";
 import { SyntheticEvent, useMemo, useState } from "react";
+import Link from 'next/link';
 
 export default function Register() {
 
@@ -114,6 +115,11 @@ export default function Register() {
 								) : (
 								<button disabled={isMutating} type="submit" className="btn btn-primary text-white">REGISTER</button>
 								)}
+							</div>
+							<div className="form-control">
+								<label className="label">
+									<Link href="/auth/login" className="label-text-alt link link-hover">Kembali</Link>
+								</label>
 							</div>
 						</form>
 					</div>
