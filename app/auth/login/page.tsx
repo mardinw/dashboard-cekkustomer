@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { SyntheticEvent, useMemo, useState } from "react"
 import Link from 'next/link';
 import { setAccessToken } from "@/app/utils/auth";
+import {FaEye, FaEyeSlash} from 'react-icons/fa';
 
 export default function Login() {
 	const apiUrl = appInfo.apiDomain
@@ -72,7 +73,7 @@ export default function Login() {
 								</label>
 								<input 
 									value={email}
-									type="email" placeholder="email" className="input input-bordered" 
+									type="email" placeholder="email" className="input input-bordered w-full max-w-xs" 
 									onChange={(e) => setEmail(e.target.value)}	
 								required />
 							</div>
@@ -80,13 +81,22 @@ export default function Login() {
 								<label className="label">
 									<span className="label-text">Password</span>
 								</label>
-								<input 
-									value={password}
-									type="password" 
-									placeholder="password" 
-									className="input input-bordered" 
-									onChange={(e) => setPassword(e.target.value)}
-								required />
+								<div className="input-group join">
+										<input 
+											value={password}
+											type={isVisible ? 'text': 'password'} 
+											placeholder="password" 
+											className="join-item input input-bordered w-full" 
+											onChange={(e) => setPassword(e.target.value)}
+										required />
+										<button 
+										type="button"
+										className="join-item btn btn-square btn-success text-white"
+										onClick={toggleVisibility}
+										>
+											{isVisible ? <FaEyeSlash size={16}/> : <FaEye size={16} />}
+										</button>
+								</div>
 								<label className="label">
 									<Link href="/auth/forgot" className="label-text-alt link link-hover">Lupa password?</Link>
 								</label>

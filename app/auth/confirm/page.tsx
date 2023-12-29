@@ -1,7 +1,7 @@
 'use client'
 import { appInfo } from "@/app/config/appInfo"
 import { useRouter } from "next/navigation";
-import { SyntheticEvent, useEffect, useState } from "react";
+import { SyntheticEvent, useEffect, useRef, useState } from "react";
 import Link from 'next/link';
 
 export default function Confirm() {
@@ -14,6 +14,34 @@ export default function Confirm() {
 
 	const router = useRouter();
 
+	// use useref for minute
+	const [seconds, setSeconds] = useState(180);
+	const [timerExpired, setTimerExpired] = useState<boolean>(false);
+
+	const minutesRef = useRef(3);
+	const secondsRef = useRef(0);
+	useEffect(() => {
+		const intervalId = setInterval(() => {
+			setSeconds((prevSeconds) => {
+				if (prevSeconds === 0) {
+					clearInterval(intervalId);
+					setTimerExpired(true);
+					return prevSeconds;
+				}
+				return prevSeconds - 1;
+			});
+		}, 1000);
+
+		return () => clearInterval(intervalId);
+	}, [timerExpired])
+
+	const formatTime = (timeInSeconds: number): string => {
+		const minutes = Math.floor(timeInSeconds / 60);
+		const seconds = timeInSeconds % 60;
+		return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+	}
+
+	// cek localstorage on email
 	useEffect(() => {
 		const storedEmail = localStorage.getItem('email');
 		setEmail(storedEmail);
@@ -79,6 +107,7 @@ export default function Confirm() {
 			if (!res.ok) {
 				throw new Error(`Error! status: ${res.status}`)
 			}
+			setSeconds(180);
 		} catch (err) {
 			console.error(err);
 		} finally {
@@ -110,6 +139,10 @@ export default function Confirm() {
 								className="input input-bordered"
 								onChange={(e) => setCode(e.target.value)}
 								required />
+								<label className="label">
+									<span className="label-text mr-2">{formatTime(seconds)}</span>
+									<Link href="#" className="label-text-alt link link-hover" onClick={handleResendCode}>Kirim Ulang Code</Link>
+								</label>
 							</div>
 							<div className="form-control mt-6">
 								{isMutating ? (
@@ -117,9 +150,6 @@ export default function Confirm() {
 								) : (
 								<button type="submit" className="btn btn-primary text-white">KONFIRMASI</button>
 								)}
-							</div>
-							<div className="form-control mt-6">
-								<button className="btn btn-secondary text-white" onClick={handleResendCode}>KIRIM ULANG CODE</button>
 							</div>
 							<div className="form-control">
 								<label className="label">

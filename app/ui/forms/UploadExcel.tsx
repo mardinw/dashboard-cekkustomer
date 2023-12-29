@@ -39,10 +39,10 @@ export default function FormUploadExcel() {
           body: data,
         })
 
+        const result = await res.json();
         if (!res.ok) {
           if (res.status === 400) {
-            const errorText = await res.text();
-            setErrorMessage(`Bad Request: ${errorText}`)
+            setErrorMessage(`${res.statusText}`)
           } else {
             throw new Error(await res.text());
           }

@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { SyntheticEvent, useEffect, useMemo, useRef, useState } from "react";
 import { clearInterval, setInterval } from "timers";
 import Link from 'next/link';
+import {FaEye, FaEyeSlash} from 'react-icons/fa';
 
 export default function ResetPassword() {
 	const apiUrl = appInfo.apiDomain
@@ -23,9 +24,12 @@ export default function ResetPassword() {
 	}, [cPassword])
 
 	const [ isMutating, setIsMutating ] = useState(false);
-	const [ isVisible, setIsVisible ] = useState(false);
+	const [ isVisibleOne, setIsVisibleOne ] = useState(false);
+	const [ isVisibleTwo, setIsVisibleTwo ] = useState(false);
 
-	const toggleVisibility = () => setIsVisible(!isVisible);
+	const toggleVisibilityOne = () => setIsVisibleOne(!isVisibleOne);
+	const toggleVisibilityTwo = () => setIsVisibleTwo(!isVisibleTwo);
+
 	const router = useRouter();
 
 	const [seconds, setSeconds] = useState(180);
@@ -47,7 +51,7 @@ export default function ResetPassword() {
 		}, 1000);
 
 		return () => clearInterval(intervalId);
-	}, [])
+	}, [timerExpired])
 
 	const formatTime = (timeInSeconds: number): string => {
 		const minutes = Math.floor(timeInSeconds / 60);
@@ -58,6 +62,11 @@ export default function ResetPassword() {
 	useEffect(() => {
 		const storedEmail = localStorage.getItem('email');
 		setEmail(storedEmail);
+		if(storedEmail) {
+			console.log("email telah ada");
+		} else {
+			router.push('/auth/login');
+		}
 	}, []);
 
 	async function handleResetPassword(event: SyntheticEvent) {
@@ -111,6 +120,7 @@ export default function ResetPassword() {
 			if (!res.ok) {
 				throw new Error(`Error! status: ${res.status}`)
 			}
+			setSeconds(180);
 		} catch (err) {
 			console.error(err);
 		} finally {
@@ -136,35 +146,53 @@ export default function ResetPassword() {
 								required 
 								/>
 								<label className="label">
-									<span className="label-text">{formatTime(seconds)}</span>
+									<span className="label-text mr-2">{formatTime(seconds)}</span>
+								<Link href="#" className="label-text-alt link link-hover" onClick={handleResendCode}>Kirim Ulang Code</Link>
 								</label>
-								<button className="btn btn-secondary text-white" onClick={handleResendCode}>KIRIM ULANG CODE</button>
 							</div>
 							<div className="form-control">
 								<label className="label">
 									<span className="label-text">Password Baru</span>
 								</label>
-								<input 
-								value={password}
-								type="password" 
-								placeholder="password" 
-								className="input input-bordered" 
-								onChange={(e) => setPassword(e.target.value)}
-								required 
-								/>
+								<div className="input-group join">
+									<input 
+									value={password}
+										type={isVisibleOne ? 'text': 'password'} 
+									placeholder="password" 
+									className="join-item input input-bordered w-full" 
+									onChange={(e) => setPassword(e.target.value)}
+									required 
+									/>
+									<button 
+									type="button"
+									className="join-item btn btn-square btn-success text-white"
+									onClick={toggleVisibilityOne}
+									>
+										{isVisibleOne ? <FaEyeSlash size={16}/> : <FaEye size={16} />}
+									</button>
+								</div>
 							</div>
 							<div className="form-control">
 								<label className="label">
 									<span className="label-text">Konfirmasi Password Baru</span>
 								</label>
-								<input 
-									value={cPassword}
-								type="password" 
-								placeholder="password" 
-								className="input input-bordered" 
-								onChange={(e) => setCPassword(e.target.value)}
-								required 
-								/>
+								<div className="input-group join">
+									<input 
+										value={cPassword}
+										type={isVisibleTwo ? 'text': 'password'} 
+									placeholder="password" 
+									className="join-item input input-bordered w-full" 
+									onChange={(e) => setCPassword(e.target.value)}
+									required 
+									/>
+									<button 
+									type="button"
+									className="join-item btn btn-square btn-success text-white"
+									onClick={toggleVisibilityTwo}
+									>
+										{isVisibleTwo ? <FaEyeSlash size={16}/> : <FaEye size={16} />}
+									</button>
+								</div>
 							</div>
 							<div className="form-control mt-6">
 								{isMutating ? (

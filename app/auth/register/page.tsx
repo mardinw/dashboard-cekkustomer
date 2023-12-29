@@ -3,6 +3,7 @@ import { appInfo } from "@/app/config/appInfo";
 import { useRouter } from "next/navigation";
 import { SyntheticEvent, useMemo, useState } from "react";
 import Link from 'next/link';
+import {FaEye, FaEyeSlash} from 'react-icons/fa';
 
 export default function Register() {
 
@@ -29,9 +30,12 @@ export default function Register() {
 	}, [cPassword])
 
 	const [ isMutating, setIsMutating ] = useState(false);
-	const [ isVisible, setIsVisible ] = useState(false);
+	const [ isVisibleOne, setIsVisibleOne ] = useState(false);
+	const [ isVisibleTwo, setIsVisibleTwo ] = useState(false);
 
-	const toggleVisibility = () => setIsVisible(!isVisible);
+	const toggleVisibilityOne = () => setIsVisibleOne(!isVisibleOne);
+	const toggleVisibilityTwo = () => setIsVisibleTwo(!isVisibleTwo);
+
 	const router = useRouter();
 
 	async function handleRegister(event: SyntheticEvent) {
@@ -87,27 +91,45 @@ export default function Register() {
 								<label className="label">
 									<span className="label-text">Password</span>
 								</label>
-								<input 
-								value={password}
-								type="password" 
-								placeholder="password" 
-								className="input input-bordered" 
-								onChange={(e) => setPassword(e.target.value)}
-								required 
-								/>
+								<div className="input-group join">
+									<input 
+									value={password}
+										type={isVisibleOne ? 'text': 'password'} 
+									placeholder="password" 
+									className="input input-bordered w-full join-item" 
+									onChange={(e) => setPassword(e.target.value)}
+									required 
+									/>
+									<button 
+									type="button"
+									className="join-item btn btn-square btn-success text-white"
+									onClick={toggleVisibilityOne}
+									>
+										{isVisibleOne ? <FaEyeSlash size={16}/> : <FaEye size={16} />}
+									</button>
+								</div>
 							</div>
 							<div className="form-control">
 								<label className="label">
 									<span className="label-text">Konfirmasi Password</span>
 								</label>
-								<input 
-									value={cPassword}
-								type="password" 
-								placeholder="password" 
-								className="input input-bordered" 
-								onChange={(e) => setCPassword(e.target.value)}
-								required 
-								/>
+								<div className="input-group join">
+									<input 
+										value={cPassword}
+										type={isVisibleTwo ? 'text': 'password'} 
+									placeholder="password" 
+									className="input input-bordered w-full join-item" 
+									onChange={(e) => setCPassword(e.target.value)}
+									required 
+									/>
+									<button 
+									type="button"
+									className="join-item btn btn-square btn-success text-white"
+									onClick={toggleVisibilityTwo}
+									>
+										{isVisibleTwo ? <FaEyeSlash size={16}/> : <FaEye size={16} />}
+									</button>
+								</div>
 							</div>
 							<div className="form-control mt-6">
 								{isMutating ? (
