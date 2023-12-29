@@ -20,7 +20,7 @@ export default function Login() {
 	const [password, setPassword] = useState<string>("");
 	const [ isMutating, setIsMutating ] = useState(false);
 	const [ isVisible, setIsVisible ] = useState(false);
-	const [isError, setError] = useState<string>("");
+	const [errorMessage, setError] = useState<string>("");
 
 	const toggleVisibility = () => setIsVisible(!isVisible);
 
@@ -43,7 +43,11 @@ export default function Login() {
 			});
 
 			if (!res.ok) {
-				throw new Error('Invalid credentials');
+				if (res.status === 404) {
+					setError("Password dan Email tidak cocok");
+					setIsMutating(false);
+					return
+				}
 			}
 			const data = await res.json();
 
@@ -109,6 +113,7 @@ export default function Login() {
 								)}
 								<Link href="/auth/register" className="mt-2 label-text-alt link link-hover">Belum punya akun?</Link>
 							</div>
+							{errorMessage && <p className="text-error">{errorMessage}</p>}
 						</form>
 					</div>
 				</div>

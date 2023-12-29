@@ -103,11 +103,10 @@ export default function FormUploadExcel() {
         <h2 className="mt-2 block text-xl font-semibold text-[#07074D]">Cek Data</h2>
           <hr className="mb-2"/>
       <div className="mb-6">
-            <label className="mb-5 block text-xl font-semibold text-[#07074D] flex flex-row">Upload File</label>
         <div className="flex flex-col md:flex-row w-full">
           <div className="grid h-32 md:h-20 flex-grow">
             <p className="m-1 text-sm leading-6 text-gray-600">
-              Belum ada template ? bisa klik unduh file dibawah ini.
+              Belum ada template ? bisa klik unduh template dibawah ini.
             </p>
             <button className="mb-6 btn btn-accent text-white flex-grow" type="submit" onClick={handleDownload}>{isDownloading ? 'Downloading...': 'UNDUH TEMPLATE'}</button>
           </div>
