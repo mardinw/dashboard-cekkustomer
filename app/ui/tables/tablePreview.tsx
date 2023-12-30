@@ -1,59 +1,74 @@
 'use client'
 
-import { useEffect, useState } from "react";
+import { KeyboardEvent, useEffect, useState } from "react";
 import {DataCustomer} from "@/app/lib/dpt/definitions";
 import { appInfo } from "@/app/config/appInfo";
-
+import {MdClear} from 'react-icons/md';
+import {FaMagnifyingGlass} from 'react-icons/fa6';
+import PreviewTable from "@/app/lib/dpt/DataPreview";
 
 export default function TablePreview({fileName} : {fileName: string|undefined}) {
   const apiUrl = appInfo.apiDomain 
 
-  const [fetchData, setFetchData] = useState<DataCustomer[]>([]);
+  const [data, setData] = useState<DataCustomer[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string |null>(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const sessionStorageData = sessionStorage.getItem('authData');
+  const [ searchName, setSearchName ] = useState<string>("");
 
-      if (!sessionStorageData) {
-        console.error('Data sesi tidak ditemukan');
-        return;
-      }
+  const fetchData = async (nama : string = "") => {
+    const sessionStorageData = sessionStorage.getItem('authData');
 
-      const parsedData = JSON.parse(sessionStorageData);
-      const accessToken = parsedData.access_token;
-
-      try {
-        setIsLoading(true);
-        const response = await fetch(`${apiUrl}/v1/files/read/${fileName}`, {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${accessToken}`,
-          },
-        })
-
-        const result: DataCustomer[] = await response.json();
-
-        if (!response.ok) {
-          if (response.status === 400) {
-            setError("Bad request: format tabel anda kurang tepat.");
-          } else if (response.status === 404) {
-            setError("Data tidak ada")
-          } else {
-            setError(`Server error: ${response.statusText}`);
-          }
-        }
-        setFetchData(result);
-      } catch (e: any) {
-        console.error('Error fetching data:', e)
-      } finally {
-        setIsLoading(false);
-      }
+    if (!sessionStorageData) {
+      console.error('Data sesi tidak ditemukan');
+      return;
     }
 
-    fetchData();
-  }, [fileName])
+    const parsedData = JSON.parse(sessionStorageData);
+    const accessToken = parsedData.access_token;
+
+    try {
+      setIsLoading(true);
+      const response = await fetch(`${apiUrl}/v1/files/read/${fileName}?first_name=${nama}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+        },
+      })
+
+      if (!response.ok) {
+        if (response.status === 400) {
+          setError("Bad request: format tabel anda kurang tepat.");
+        } else if (response.status === 404) {
+          setError("Data tidak ada")
+        } else {
+          setError(`Server error: ${response.statusText}`);
+        }
+      }
+      
+      const result: DataCustomer[] = await response.json();
+      setData(result);
+    } catch (e: any) {
+      console.error('Error fetching data:', e)
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    fetchData(searchName);
+  }, [fileName]);
+
+  const handleClearSearch = () => {
+    setSearchName("");
+    fetchData("");
+  };
+
+  const handleKeyPress = (e: KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      fetchData(searchName);
+    }
+  }
 
   if (error) {
     return <p>{error}</p>
@@ -64,39 +79,23 @@ export default function TablePreview({fileName} : {fileName: string|undefined}) 
       {isLoading ? (
         <p>Loading...</p>
       ) : (
-      <table 
-        aria-label="load check match table"
-        className="table table-xs"
-      >
-        <thead>
-          <tr>
-            <th colSpan={7} className="text-center border">Data Customer Preview</th>
-          </tr>
-          <tr>
-            <th className="border">No</th>
-            <th className="border">Card Number</th>
-            <th className="border">First Name</th>
-            <th className="border">Collector</th>
-            <th className="border">Address 3</th>
-            <th className="border">Address 4</th>
-            <th className="border">Zip Code</th>
-          </tr>
-        </thead>
-        <tbody>
-          {fetchData?.map((item, index) => (
-          <tr key={index}>
-            <td>{index + 1}</td>
-            <td>{item.card_number}</td>
-            <td>{item.first_name}</td>
-            <td>{item.collector}</td>
-            <td>{item.address_3}</td>
-            <td>{item.address_4}</td>
-            <td>{item.home_zip_code}</td>
-          </tr>
-        ))}
-        </tbody>
-      </table>
-      )}
+      data && (
+        <>
+          <div className="m-2">
+            <input 
+              type="text"
+              placeholder="pencarian nama"
+              className="input input-bordered w-full max-w-xs"
+              value={searchName}
+              onChange={(e) => setSearchName(e.target.value)}
+              onKeyPress={handleKeyPress}
+            />
+            <button onClick={() => fetchData(searchName)} className="text-black btn mr-1"><FaMagnifyingGlass /></button>
+          <button onClick={handleClearSearch} className="btn btn-error text-white"><MdClear /></button>
+          </div>
+          <PreviewTable data={data} />
+        </>
+      ))}
     </>
   )
 }
