@@ -1,7 +1,6 @@
 import { appInfo } from "@/app/config/appInfo"
 import { useEffect, useState } from "react";
 import { FileList } from "@/app/lib/dpt/definitions";
-import PopUpTablePreview from "../popup/PopUpTablePreview";
 import { FaDeleteLeft, FaListCheck, FaRegEye, FaRegEyeSlash }from "react-icons/fa6";
 import TablePreview from "../tables/tablePreview";
 import TableMatch from "../tables/tableMatch";
