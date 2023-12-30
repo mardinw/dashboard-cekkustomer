@@ -19,8 +19,43 @@ export default function PreviewTable({data}: DataTableProps) {
     return data.slice(start, end);
   }, [page, data]);
 
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+  };
+
   return (
     <div>
+      <div className="join mb-4">
+        <button 
+          className="join-item btn btn-square"
+          onClick={() => handlePageChange(1)}
+          disabled={page === 1}
+        >{"<<"}
+        </button>
+        <button 
+        className="join-item btn btn-square text-black"
+        onClick={() => handlePageChange(page - 1)}
+        disabled={page === 1}
+        >
+          { page === 1 ? `${page}`:`${page - 1}`}
+        </button>
+        <button
+          className="join-item btn btn-square disabled btn-primary text-white" disabled={page === pages}>
+          { page === 1 ? '...':`${page}`}
+        </button>
+        <button 
+        className="join-item btn btn-square text-black"
+        onClick={() => handlePageChange(page + 1)}
+          disabled={ page === pages }
+        >
+          { page === pages ? `${page}`:`${page + 1}`}
+        </button>
+        <button
+          onClick={() => handlePageChange(pages)}
+          disabled={ page === pages }
+          className="join-item btn btn-square"
+        >{`>>`}</button>
+      </div>
       <table 
         aria-label="load check match table"
         className="table table-xs"
@@ -40,9 +75,9 @@ export default function PreviewTable({data}: DataTableProps) {
           </tr>
         </thead>
         <tbody>
-          {Object.values(data).map((item, index) => (
+          {items.map((item, index) => (
             <tr key={index}>
-              <td>{index + 1}</td>
+              <td>{index + 1 + (page -1) * rowsPerPage}</td>
               <td>{item.card_number}</td>
               <td>{item.first_name}</td>
               <td>{item.collector}</td>
@@ -50,20 +85,7 @@ export default function PreviewTable({data}: DataTableProps) {
               <td>{item.address_4}</td>
               <td>{item.home_zip_code}</td>
             </tr>
-          ))
-
-            /*fetchData?.map((item, index) => (
-          <tr key={index}>
-            <td>{index + 1}</td>
-            <td>{item.card_number}</td>
-            <td>{item.first_name}</td>
-            <td>{item.collector}</td>
-            <td>{item.address_3}</td>
-            <td>{item.address_4}</td>
-            <td>{item.home_zip_code}</td>
-          </tr>
-          ))*/
-          }
+          ))}
         </tbody>
       </table>
     </div>
