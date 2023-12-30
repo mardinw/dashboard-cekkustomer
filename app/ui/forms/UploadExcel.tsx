@@ -100,8 +100,6 @@ export default function FormUploadExcel() {
 
   return (
     <form className="p-2" onSubmit={onSubmit}>
-        <h2 className="mt-2 block text-xl font-semibold text-[#07074D]">Cek Data</h2>
-          <hr className="mb-2"/>
       <div className="mb-6">
         <div className="flex flex-col md:flex-row w-full">
           <div className="grid h-32 md:h-20 flex-grow">

@@ -53,7 +53,7 @@ export default function Login() {
 
 			setAccessToken(data.access_token);
 			localStorage.removeItem("email");
-			router.push('/');
+			router.push('/dashboard');
 		} catch (err) {
 			console.error('Login failed:', err);
 			setError('Login failed. Please check your credentials');
