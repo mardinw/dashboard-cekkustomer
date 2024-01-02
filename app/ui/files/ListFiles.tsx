@@ -8,11 +8,14 @@ import DeleteFile from "./DeleteFile";
 import TableExport from "../tables/tableExport";
 import {MdClear} from 'react-icons/md';
 import {FaMagnifyingGlass} from 'react-icons/fa6';
+import { useRouter } from "next/navigation";
+import { clearAccessToken } from "@/app/utils/auth";
 
 export default function ListFiles() {
   const apiUrl = appInfo.apiDomain
   const nameAgencies = "pass"
-  
+  const router = useRouter();
+
   const [error, setError] = useState<string | null>(null);
   const [files, setFiles] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -46,8 +49,9 @@ export default function ListFiles() {
         if (!response.ok) {
           if (response.status === 400) {
             setError("belum ada files");
-          } else {
-            setError(`Server error: ${response.statusText}`);
+          } else  {
+            clearAccessToken();
+            router.push('/auth/login');  
           }
         }
         if (Array.isArray(result.files)) {

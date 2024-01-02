@@ -27,24 +27,24 @@ export default function PreviewTable({data}: DataTableProps) {
     <div>
       <div className="join mb-4">
         <button 
-          className="join-item btn btn-square"
+          className="join-item btn btn-square hover:btn-primary active:btn-primary"
           onClick={() => handlePageChange(1)}
           disabled={page === 1}
         >{"<<"}
         </button>
         <button 
-        className="join-item btn btn-square text-black"
+          className="join-item btn btn-square text-black hover:btn-primary active:btn-primary"
         onClick={() => handlePageChange(page - 1)}
         disabled={page === 1}
         >
           { page === 1 ? `${page}`:`${page - 1}`}
         </button>
         <button
-          className="join-item btn btn-square disabled btn-primary text-white" disabled={page === pages}>
+          className="join-item btn btn-square disabled text-white" disabled>
           { page === 1 ? '...':`${page}`}
         </button>
         <button 
-        className="join-item btn btn-square text-black"
+          className="join-item btn btn-square text-black hover:btn-primary active:btn-primary"
         onClick={() => handlePageChange(page + 1)}
           disabled={ page === pages }
         >
@@ -53,7 +53,7 @@ export default function PreviewTable({data}: DataTableProps) {
         <button
           onClick={() => handlePageChange(pages)}
           disabled={ page === pages }
-          className="join-item btn btn-square"
+          className="join-item btn btn-square hover:btn-primary active:btn-primary"
         >{`>>`}</button>
       </div>
       <table 
