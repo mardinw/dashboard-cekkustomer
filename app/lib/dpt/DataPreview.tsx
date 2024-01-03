@@ -62,11 +62,12 @@ export default function PreviewTable({data}: DataTableProps) {
       >
         <thead>
           <tr>
-            <th colSpan={7} className="text-center border">Data Customer Preview</th>
+            <th colSpan={8} className="text-center border-solid border-2">Data Customer Preview</th>
           </tr>
           <tr>
             <th className="border">No</th>
             <th className="border">Card Number</th>
+            <th className="border">NIK</th>
             <th className="border">First Name</th>
             <th className="border">Collector</th>
             <th className="border">Address 3</th>
@@ -79,6 +80,7 @@ export default function PreviewTable({data}: DataTableProps) {
             <tr key={index}>
               <td>{index + 1 + (page -1) * rowsPerPage}</td>
               <td>{item.card_number}</td>
+              <td>{item.nik}</td>
               <td>{item.first_name}</td>
               <td>{item.collector}</td>
               <td>{item.address_3}</td>

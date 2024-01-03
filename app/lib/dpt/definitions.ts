@@ -18,6 +18,7 @@ interface AddressDetails {
 
 export interface DataCustomer {
   card_number: string;
+  nik: number;
   collector: string;
   first_name: string;
   address_3: string;

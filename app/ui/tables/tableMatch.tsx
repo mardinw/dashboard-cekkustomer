@@ -30,7 +30,7 @@ export default function TableMatch({fileName}: {fileName:string}) {
 
     try {
       setIsLoading(true);
-      const response = await fetch(`${apiUrl}/v1/check/match/${fileName}?nama=${nama}`, {
+      const response = await fetch(`${apiUrl}/v1/check/match/concat/${fileName}?nama=${nama}`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${accessToken}`,
