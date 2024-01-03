@@ -104,7 +104,7 @@ export default function FormUploadExcel() {
         <div className="flex flex-col md:flex-row w-full">
           <div className="grid h-32 md:h-20 flex-grow">
             <p className="m-1 text-sm leading-6 text-gray-600">
-              Belum ada template ? bisa klik unduh template dibawah ini.
+              Silahkan unduh template dibawah ini.
             </p>
             <button className="mb-6 btn btn-accent text-white flex-grow" type="submit" onClick={handleDownload}>{isDownloading ? 'Downloading...': 'UNDUH TEMPLATE'}</button>
           </div>
