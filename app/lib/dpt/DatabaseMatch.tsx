@@ -8,6 +8,7 @@ export interface locationProps {
 
 interface ItemProps {
   card_number: string;
+  nik: string;
   first_name: string;
   address_3: string;
   address_4: string;
@@ -31,12 +32,13 @@ export default function ResultTable({locationData}: ResultTableProps) {
       >
       <thead>
         <tr>
-          <th colSpan={7} className="text-center border">Data Agencies</th>
+          <th colSpan={8} className="text-center border">Data Agencies</th>
           <th colSpan={5} className="text-center border">Data Match</th>
         </tr>
         <tr>
           <th className="border">No</th>
           <th className="border">Card Number</th>
+          <th className="border">NIK</th>
           <th className="border">First Name</th>
           <th className="border">Collector</th>
           <th className="border">Address 3</th>
@@ -54,6 +56,7 @@ export default function ResultTable({locationData}: ResultTableProps) {
           <tr key={`${index}-${itemIndex}`}>
             <td>{globalIndex++}</td>
             <td>{item.card_number}</td>
+            <td>{item.nik}</td>
             <td>{item.first_name}</td>
             <td>{item.collector}</td>
             <td>{item.address_3}</td>

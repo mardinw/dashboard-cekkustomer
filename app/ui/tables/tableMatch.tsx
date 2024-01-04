@@ -15,10 +15,10 @@ export default function TableMatch({fileName}: {fileName:string}) {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [data, setData] = useState<locationProps |null>(null);
-
   const [searchName, setSearchName] = useState<string>("");
-
-  const fetchData = async (nama : string = "") => {
+  const [searchType, setSearchType] = useState<string>("");
+  
+  const fetchMatch = async (nama : string = "") => {
     const sessionStorageData = sessionStorage.getItem('authData');
 
     if (!sessionStorageData) {
@@ -30,7 +30,10 @@ export default function TableMatch({fileName}: {fileName:string}) {
 
     try {
       setIsLoading(true);
-      const response = await fetch(`${apiUrl}/v1/check/match/concat/${fileName}?nama=${nama}`, {
+
+      // pencarian berdasarkan endpoint
+      const endpoint = searchType === 'nik' ? 'nik' : 'concat';
+      const response = await fetch(`${apiUrl}/v1/check/match/${endpoint}/${fileName}?nama=${nama}`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${accessToken}`,
@@ -54,20 +57,25 @@ export default function TableMatch({fileName}: {fileName:string}) {
     }
   };
 
-  useEffect(() => {
-  fetchData(searchName);
-  }, [fileName]);
+  const fetchData = async () => {
+    fetchMatch(searchName);
+  };
 
+  useEffect(() => {
+  fetchData();
+  }, [searchType, fileName]);
+  
   const handleClearSearch = () => {
     setSearchName("");
-    fetchData("");
+    fetchMatch("");
   };
 
   const handleKeyPress = (e: KeyboardEvent) => {
     if (e.key === 'Enter') {
-      fetchData(searchName);
+      fetchData();
     }
   }
+
 
   return (
     <>
@@ -76,16 +84,27 @@ export default function TableMatch({fileName}: {fileName:string}) {
       ) : (
       data && (
         <>
-        <div className="m-2">
+        <div className="flex justify-between m-2">
+          <div className="grow">
           <input type="text" 
             placeholder="Pencarian Nama" 
-            className="input input-bordered w-full max-w-xs" 
+            className="input input-primary input-bordered w-full max-w-xs" 
             value={searchName}
             onChange={(e) => setSearchName(e.target.value)}
             onKeyPress={handleKeyPress}
           />
-          <button onClick={() => fetchData(searchName)} className="text-black btn mr-1"><FaMagnifyingGlass /></button>
-          <button onClick={handleClearSearch} className="btn btn-error text-white"><MdClear /></button>
+          <button onClick={() => fetchData()} className="text-black btn mr-1"><FaMagnifyingGlass /></button>
+          <button onClick={handleClearSearch} className="btn btn-error text-white mr-1"><MdClear /></button>
+          </div>
+          <select 
+            className="select select-primary w-full max-w-xs"
+            value={searchType}
+            onChange={(e) => setSearchType(e.target.value)}
+          >
+            <option disabled value="">Silahkan pilih opsi</option>
+            <option value="concat">Match Nama & Tanggal Lahir</option>
+            <option value="nik">Match Nama & NIK</option>
+          </select>
         </div>
         <ResultTable locationData={data} />
         </>
