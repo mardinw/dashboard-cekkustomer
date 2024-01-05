@@ -143,7 +143,6 @@ export default function ListFiles() {
       {selectedPreviewFile && <TablePreview fileName={selectedPreviewFile} />}
       {selectedMatchFile && ( 
         <>
-        <TableExport fileName={selectedMatchFile}/>
         <TableMatch fileName={selectedMatchFile} />
         </>
         )}

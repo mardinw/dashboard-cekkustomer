@@ -16,7 +16,8 @@ export default function TableMatch({fileName}: {fileName:string}) {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [data, setData] = useState<locationProps |null>(null);
   const [searchName, setSearchName] = useState<string>("");
-  const [searchType, setSearchType] = useState<string>("");
+  const [searchType, setSearchType] = useState<string>("concat");
+  const [exportType, setExportType] = useState<string>("");
   
   const fetchMatch = async (nama : string = "") => {
     const sessionStorageData = sessionStorage.getItem('authData');
@@ -84,6 +85,7 @@ export default function TableMatch({fileName}: {fileName:string}) {
       ) : (
       data && (
         <>
+          <TableExport fileName={fileName} exportType={exportType}/>
         <div className="flex justify-between m-2">
           <div className="grow">
           <input type="text" 
@@ -99,7 +101,10 @@ export default function TableMatch({fileName}: {fileName:string}) {
           <select 
             className="select select-primary w-full max-w-xs"
             value={searchType}
-            onChange={(e) => setSearchType(e.target.value)}
+            onChange={(e) => {
+            setSearchType(e.target.value);
+            setExportType(e.target.value);
+            }}
           >
             <option disabled value="">Silahkan pilih opsi</option>
             <option value="concat">Match Nama & Tanggal Lahir</option>
