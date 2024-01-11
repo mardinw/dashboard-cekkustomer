@@ -16,6 +16,7 @@ interface AddressDetails {
   Valid: boolean;
 }
 
+// data preview
 export interface DataCustomer {
   card_number: string;
   nik: number;
@@ -26,6 +27,27 @@ export interface DataCustomer {
   home_zip_code: string;
   concat_customer: string;
 }
+
+// data Match
+export interface locationProps {
+  locationDPT: ItemProps[]
+}
+
+interface ItemProps {
+  card_number: string;
+  nik: string;
+  first_name: string;
+  address_3: string;
+  address_4: string;
+  home_zip_code: string;
+  concat_customer: string;
+  collector: string;
+  nama: string;
+  kelurahan: string;
+  kecamatan: string;
+  kodepos: number;
+}
+// end data Match
 
 export interface FileList {
   list_file: string;

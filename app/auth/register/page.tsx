@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { SyntheticEvent, useMemo, useState } from "react";
 import Link from 'next/link';
 import {FaEye, FaEyeSlash} from 'react-icons/fa';
+import RenderPasswordMessage from "@/app/lib/dpt/renderPasswordMessage";
 
 export default function Register() {
 
@@ -22,16 +23,15 @@ export default function Register() {
 	const [showErrorMessage, setShowErrorMessage] = useState<boolean>(false);
 
 	const isCPasswordDirty = useMemo(() => {
-		if (password === cPassword) {
-			setShowErrorMessage(false);
-		} else {
-			setShowErrorMessage(true);
-		}
-	}, [cPassword])
+		return password !== cPassword;
+	}, [password, cPassword])
 
 	const [ isMutating, setIsMutating ] = useState(false);
 	const [ isVisibleOne, setIsVisibleOne ] = useState(false);
 	const [ isVisibleTwo, setIsVisibleTwo ] = useState(false);
+	const [ passwordError, setPasswordError ] = useState<string|null>(null);
+
+	const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
 
 	const toggleVisibilityOne = () => setIsVisibleOne(!isVisibleOne);
 	const toggleVisibilityTwo = () => setIsVisibleTwo(!isVisibleTwo);
@@ -40,6 +40,14 @@ export default function Register() {
 
 	async function handleRegister(event: SyntheticEvent) {
 		event.preventDefault();
+
+		if (!password.match(passwordRegex)) {
+			setPasswordError(
+				"Password harus minimal 8 karakter dan termasuk angka beserta karakter spesial."
+			);
+				return
+		}
+		setPasswordError(null);
 
 		setIsMutating(true);
 		try {
@@ -108,6 +116,7 @@ export default function Register() {
 										{isVisibleOne ? <FaEyeSlash size={16}/> : <FaEye size={16} />}
 									</button>
 								</div>
+								{RenderPasswordMessage(passwordError)}
 							</div>
 							<div className="form-control">
 								<label className="label">
@@ -130,6 +139,7 @@ export default function Register() {
 										{isVisibleTwo ? <FaEyeSlash size={16}/> : <FaEye size={16} />}
 									</button>
 								</div>
+								{RenderPasswordMessage(isCPasswordDirty ? 'Password do not match.' : null)}
 							</div>
 							<div className="form-control mt-6">
 								{isMutating ? (

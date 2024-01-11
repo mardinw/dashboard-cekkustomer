@@ -1,7 +1,7 @@
 "use client"
 import { appInfo } from "@/app/config/appInfo";
-import ResultTable, { ResultTableProps, locationProps } from "@/app/lib/dpt/DatabaseMatch";
-import { DPTItem } from "@/app/lib/dpt/definitions";
+import ResultTable from "@/app/lib/dpt/DataMatch";
+import { DPTItem, locationProps } from "@/app/lib/dpt/definitions";
 import { Result } from "postcss";
 import { KeyboardEvent, useEffect, useState } from "react"
 import TableExport from "./tableExport";

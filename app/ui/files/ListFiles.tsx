@@ -112,14 +112,14 @@ export default function ListFiles() {
     {isLoading ? (
       <p>Loading...</p>
     ) : (
-      <div className="overflow-auto m-4">
+      <div className="overflow-x-auto m-4">
       {selectedDeleteFile && <DeleteFile fileName={selectedDeleteFile}/>}
-        <table className="table table-xs">
-        <thead>
+        <table className="table-auto border-collapse border w-full">
+        <thead className="bg-gray-50 border-b-2 border-gray-200">
           <tr>
-            <th>Agencies</th>
-            <th>Nama File</th>
-            <th>Action</th>
+            <th className="text-center border p-3 text-sm font-semibold">Username</th>
+            <th className="text-center border p-3 text-sm font-semibold">Nama File</th>
+            <th className="text-center border p-3 text-sm font-semibold">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -127,10 +127,10 @@ export default function ListFiles() {
               const parts = filePath.split('/');
               const fileName = parts[parts.length - 1];
               return ( 
-                <tr key={index}>
-                  <td>{nameAgencies}</td>
-                  <td>{fileName}</td>
-                  <td>
+                <tr key={index} className="odd:bg-white even:bg-slate-50">
+                  <td className="p-3 text-sm text-gray-700">{nameAgencies}</td>
+                  <td className="p-3 text-sm text-gray-700">{fileName}</td>
+                  <td className="p-3 text-sm text-gray-700">
                     <button className="btn mr-1 btn-info text-white" onClick={() => handlePreviewClick(fileName)}><FaRegEye className="text-base" /></button>
                     <button className="btn mr-1 btn-accent text-white" onClick={() => handleMatchClick(fileName)}><FaListCheck className="text-base" /></button>
                     <button className="btn mr-1 btn-error text-white" onClick={() => handleDeleteClick(fileName)}><FaDeleteLeft className="text-base"/></button>
