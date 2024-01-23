@@ -82,9 +82,18 @@ export default function ResultTable({locationData}: ResultTableProps) {
         >
           <thead className="bg-gray-50 border-b-2 border-gray-200">
             <tr>
-              <th className="text-center border p-3 text-sm font-semibold">Nama</th>
+              <th className="text-center border p-3 text-sm font-semibold">Data Match</th>
             </tr>
           </thead>
+          <tbody>
+            {items.map((item, index) => (
+              <tr key={index} className="bg-white">
+                <td className="text-sm text-gray-700">
+                  {item.first_name}
+                </td>
+              </tr>
+            ))}
+          </tbody>
         </table>
       </div>
       <div className="flex join m-4 justify-center">
