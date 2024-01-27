@@ -46,6 +46,7 @@ interface ItemProps {
   kelurahan: string;
   kecamatan: string;
   kodepos: number;
+  ktp: string;
 }
 // end data Match
 

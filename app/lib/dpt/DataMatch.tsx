@@ -52,6 +52,7 @@ export default function ResultTable({locationData}: ResultTableProps) {
             <th className="border p-3 text-sm font-semibold tracking-wide text-left">Kelurahan</th>
             <th className="border p-3 text-sm font-semibold tracking-wide text-left">Kecamatan</th>
             <th className="border p-3 text-sm font-semibold tracking-wide text-left">Nama</th>
+            <th className="border p-3 text-sm font-semibold tracking-wide text-left">KTP</th>
           </tr>
         </thead>
         <tbody>
@@ -69,6 +70,7 @@ export default function ResultTable({locationData}: ResultTableProps) {
               <td className="p-3 text-sm text-gray-700">{item.kelurahan}</td>
               <td className="p-3 text-sm text-gray-700">{item.kecamatan}</td>
               <td className="p-3 text-sm text-gray-700">{item.nama}</td>
+              <td className="p-3 text-sm text-gray-700">{item.ktp}</td>
             </tr>
           ))}
         </tbody>
